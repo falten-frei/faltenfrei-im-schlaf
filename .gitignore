@@ -1,0 +1,8 @@
+source-data/
+node_modules/
+.dev.vars
+.env
+.openai/
+*.zip
+
+dist/

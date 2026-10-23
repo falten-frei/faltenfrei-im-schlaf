@@ -1,0 +1,77 @@
+{
+  "pw-gel": {
+    "name": "Reinigungsgel",
+    "volume": "500 ml",
+    "net": 3550
+  },
+  "pw-weich-1": {
+    "name": "Weichmacher-Gel 0,01%",
+    "volume": "100 ml",
+    "net": 4950
+  },
+  "pw-weich-2": {
+    "name": "Weichmacher-Gel 0,05%",
+    "volume": "100 ml",
+    "net": 4950
+  },
+  "pw-weich-3": {
+    "name": "Weichmacher-Gel 1%",
+    "volume": "100 ml",
+    "net": 4950
+  },
+  "pw-toner": {
+    "name": "Gesichtswasser",
+    "volume": "500 ml",
+    "net": 3550
+  },
+  "pw-kiwi": {
+    "name": "Kiwi Gold Serum",
+    "volume": "50 ml",
+    "net": 2750
+  },
+  "pw-kaviar": {
+    "name": "Gold Kaviar Serum",
+    "volume": "50 ml",
+    "net": 2750
+  },
+  "pw-luxus": {
+    "name": "Luxus Abschlusspflege",
+    "volume": "200 ml",
+    "net": 6600
+  },
+  "pw-beruhigend": {
+    "name": "Beruhigende Maske",
+    "volume": "200 ml",
+    "net": 7600
+  },
+  "pw-touch": {
+    "name": "Perfekter Touch Maske",
+    "volume": "200 ml",
+    "net": 7700
+  },
+  "pw-antiaging": {
+    "name": "Anti-Aging Konzentrat",
+    "volume": "200 ml",
+    "net": 3500
+  },
+  "pw-perfect-tonic": {
+    "name": "Perfect Skin Tonic",
+    "volume": "500 ml",
+    "net": 3500
+  },
+  "pw-hyaluron": {
+    "name": "Hyalurongel – Mesoporation",
+    "volume": "200 ml",
+    "net": 4800
+  },
+  "pw-perfect-serum": {
+    "name": "Serum – Perfect Skin",
+    "volume": "200 ml",
+    "net": null
+  },
+  "pw-moisture": {
+    "name": "Feuchtigkeits-Serum",
+    "volume": "200 ml",
+    "net": null
+  }
+}

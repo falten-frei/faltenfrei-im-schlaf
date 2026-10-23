@@ -1,0 +1,7 @@
+name = "faltenfrei-mail"
+main = "worker.js"
+compatibility_date = "2026-10-23"
+# Set ALLOWED_ORIGIN to the verified live website origin, never '*'.
+# Add a Cloudflare D1 binding named DB after creating the database.
+# Secrets, configured through the provider UI/CLI, never Git:
+# RESEND_API_KEY, MAIL_FROM, OWNER_EMAIL, HASH_SALT, ALLOWED_ORIGIN
