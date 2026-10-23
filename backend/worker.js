@@ -27,6 +27,14 @@ function bodyFor(p){const c=p.customer;let s=`FaltenFrei · ${p.kind==='order'?'
  if(p.totals){s+='\n'+p.items.map(x=>`${x.quantity} × ${x.name}, ${x.volume} · ${eur(x.price)} netto/Stk. = ${eur(x.price*x.quantity)}`).join('\n');s+=`\n\nWarenwert netto: ${eur(p.totals.subtotal)}\nVersand netto: ${eur(p.totals.shipping)}\nGesamt netto: ${eur(p.totals.net)}\n19 % MwSt.: ${eur(p.totals.vat)}\nGesamt brutto: ${eur(p.totals.total)}\n\nLiefergebiet, Lieferkonditionen und steuerliche Behandlung sind vor Annahme zu bestätigen.\nAGB B2B akzeptiert.\n`;}
  return s+`\nNachricht: ${c.message||'—'}\n\nDies ist eine Eingangsbestätigung, keine Auftragsannahme. Ein Vertrag entsteht erst nach gesonderter Vereinbarung in Textform.\n`;
 }
+export function customerReceipt(p){
+ const order=p.kind==='order';
+ const ru=p.language==='ru';
+ return {
+  subject:ru?(order?'FaltenFrei · Ваш заказ получен':'FaltenFrei · Ваша заявка получена'):(order?'FaltenFrei · Ihre Bestellung ist eingegangen':'FaltenFrei · Ihre Anfrage ist eingegangen'),
+  text:(ru?(order?'Спасибо! Ваш заказ получен. В ближайшее время мы свяжемся с вами для его оформления.':'Спасибо! Ваша заявка на сотрудничество получена. В ближайшее время мы свяжемся с вами.'):(order?'Vielen Dank! Ihre Bestellung ist bei uns eingegangen. Wir werden uns in Kürze mit Ihnen in Verbindung setzen, um die Bestellung abzuwickeln.':'Vielen Dank! Ihre Kooperationsanfrage ist bei uns eingegangen. Wir werden uns in Kürze mit Ihnen in Verbindung setzen.'))+'\n\n'+bodyFor(p)
+ };
+}
 async function hash(s){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(x=>x.toString(16).padStart(2,'0')).join('')}
 async function send(env,key,message){const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+env.RESEND_API_KEY,'Content-Type':'application/json','Idempotency-Key':key},body:JSON.stringify(message)});if(!r.ok)throw Error('Mail provider rejected delivery');}
 export default {async fetch(request,env){
@@ -59,8 +67,8 @@ export default {async fetch(request,env){
    await env.DB.prepare('DELETE FROM requests WHERE created<?').bind(Date.now()-7*86400000).run();
   }
   const body=bodyFor(p);
-  if(!existing?.owner_sent){await send(env,'ff-owner-'+p.requestId,{from:env.MAIL_FROM,to:[env.OWNER_EMAIL],reply_to:p.customer.email,subject:'FaltenFrei · '+(p.kind==='order'?'Bestellanfrage':'Kooperationsanfrage'),text:body});await env.DB.prepare('UPDATE requests SET owner_sent=1 WHERE id=?').bind(p.requestId).run()}
-  if(!existing?.customer_sent){await send(env,'ff-customer-'+p.requestId,{from:env.MAIL_FROM,to:[p.customer.email],reply_to:env.OWNER_EMAIL,subject:p.language==='ru'?'FaltenFrei · Ваша заявка получена':'FaltenFrei · Ihre Anfrage ist eingegangen',text:(p.language==='ru'?'Спасибо за обращение! Мы получили вашу заявку и свяжемся с вами лично. Это подтверждение получения, а не принятие заказа.\n\n':'Vielen Dank für Ihre Anfrage. Wir melden uns persönlich bei Ihnen. Dies ist noch keine Auftragsannahme.\n\n')+body});await env.DB.prepare('UPDATE requests SET customer_sent=1 WHERE id=?').bind(p.requestId).run()}
+  if(!existing?.owner_sent){await send(env,'ff-owner-'+p.requestId,{from:env.MAIL_FROM,to:[env.OWNER_EMAIL],reply_to:p.customer.email,subject:'FaltenFrei · '+(p.kind==='order'?'Neue Bestellung eingegangen':'Neue Kooperationsanfrage'),text:body});await env.DB.prepare('UPDATE requests SET owner_sent=1 WHERE id=?').bind(p.requestId).run()}
+  if(!existing?.customer_sent){await send(env,'ff-customer-'+p.requestId,{from:env.MAIL_FROM,to:[p.customer.email],reply_to:env.OWNER_EMAIL,...customerReceipt(p)});await env.DB.prepare('UPDATE requests SET customer_sent=1 WHERE id=?').bind(p.requestId).run()}
   return result({ok:true,reference:p.requestId});
  }catch{return result({ok:false,error:'Delivery could not be confirmed. Please retry with the same request reference.'},502)}
 }};
