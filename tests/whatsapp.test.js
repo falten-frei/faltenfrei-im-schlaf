@@ -9,6 +9,10 @@ test('WhatsApp uses the configured recipient and preserves all order details whe
  const ru=whatsappOrder({...order,language:'ru'});assert.match(ru.text,/Заявка на заказ/);assert.match(ru.text,/НДС 19 %/);assert.match(ru.text,/Адрес доставки/);
  const free=whatsappOrder({...order,lines:[{...order.lines[0],quantity:5}]});assert.match(free.text,/Versand netto: 0,00/);
 });
-test('empty, under-minimum, invalid quantity and invalid destination cannot create a checkout link',()=>{
- for(const change of [{phone:'bad'},{lines:[]},{lines:[{...order.lines[0],quantity:1}]},{lines:[{...order.lines[0],quantity:1.5}]}])assert.throws(()=>whatsappOrder({...order,...change}));
+test('empty cart, invalid quantity and invalid destination cannot create a checkout link',()=>{
+ for(const change of [{phone:'bad'},{lines:[]},{lines:[{...order.lines[0],quantity:1.5}]}])assert.throws(()=>whatsappOrder({...order,...change}));
+});
+
+test('orders below 250 EUR can be prepared while an explicit future minimum switch still blocks them',()=>{
+ const small={...order,lines:[{...order.lines[0],quantity:1}]};assert.match(whatsappOrder(small).text,/77,00/);assert.match(whatsappOrder(small).text,/109,48/);assert.throws(()=>whatsappOrder({...small,config:{minimumNet:25000,enforceMinimum:true,freeShippingNet:35000,shippingNet:1500,vatRate:.19}}));
 });

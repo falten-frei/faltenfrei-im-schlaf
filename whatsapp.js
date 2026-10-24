@@ -1,4 +1,4 @@
-import {calculate} from './core.js';
+import {calculate} from './core.js?v=20261024-minimum';
 
 // Pure formatting: no customer information is persisted or sent here.
 export function whatsappOrder({phone,language='de',reference,customer,lines,config}) {

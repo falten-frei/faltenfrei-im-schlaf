@@ -6,7 +6,7 @@ Deutsch / Русский. B2B-Katalog für Kosmetikinstitute, Praxiswarenkorb un
 
 - 15 VK products with current storefront names, prices and photographs, snapshot 2026-10-23.
 - 15 PW products with agreed names and sizes. 13 confirmed price bases; Perfect Skin Serum and Feuchtigkeits-Serum 200 ml are price-on-request until the owner confirms the new-size base prices.
-- PW prices: original net price × 1.10, rounded upward to €0.50; VAT calculated separately. Minimum goods value €250 net; delivery €15 net below €350 net, free from €350 net.
+- PW prices: original net price × 1.10, rounded upward to €0.50; VAT calculated separately. Advertised regular minimum €250 net; smaller requests are currently allowed (`enforceMinimum:false`); delivery €15 net below €350 net, free from €350 net.
 - Cart calculations and server validation tested with `npm test` (no dependencies).
 - DE/RU descriptions, founder story, B2B trade notice, Impressum, adapted privacy information and B2B terms.
 - No analytics, external fonts, embedded third-party media or online payments.
@@ -30,7 +30,7 @@ node build.mjs
 
 ## WhatsApp checkout (current)
 
-`config.js`: `orderChannel: 'whatsapp'`, `whatsappPhone: '491727676092'` (temporary number approved for testing). Replace only `whatsappPhone` with the final international number, digits only. Checkout includes customer details, products, quantities, net totals, shipping, 19% VAT and gross total in the selected language. The link is opened only after explicit form submission and valid required fields. No personal information is stored in browser storage. Opening a chat does not prove the message was sent.
+`config.js`: `orderChannel: 'whatsapp'`, `whatsappPhone: '491727676092'` (temporary number approved for testing). Replace only `whatsappPhone` with the final international number, digits only. Checkout includes customer details, products, quantities, net totals, shipping, 19% VAT and gross total in the selected language. The link is opened only after explicit form submission and valid required fields. The regular €250 net minimum remains visible, but checkout and WhatsApp currently allow smaller non-empty orders. Empty carts stay blocked. No personal information is stored in browser storage. Opening a chat does not prove the message was sent.
 
 ## Automatic email to customer and owner — activation required
 
