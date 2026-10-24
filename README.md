@@ -32,9 +32,11 @@ node build.mjs
 
 GitHub Pages does not run server-side code or send emails. A separate implementation is provided in `backend/worker.js` for Cloudflare Workers + D1 + Resend. It is NOT deployed or connected. No mail provider account or sender verification is available in this session.
 
+Order destination: **faltenfrei.im.schlaf@gmail.com**, fixed on the server. Customer receipt is sent separately to the email entered at checkout. This does not change the public contact/imprint address. The sender must be a verified domain address; Gmail here is the recipient, not the sender.
+
 1. Set up the owner's email provider account and verify a sender controlled by the owner. Do not use a sandbox sender for customer delivery.
 2. Create D1 database, apply `backend/schema.sql`, bind it as `DB`.
-3. Configure secrets `RESEND_API_KEY`, `MAIL_FROM`, `OWNER_EMAIL=info@faltenfrei.online`, `HASH_SALT`, and `ALLOWED_ORIGIN` (the exact live site's origin).
+3. Configure secrets `RESEND_API_KEY`, `MAIL_FROM`, `HASH_SALT`, and `ALLOWED_ORIGIN` (the exact live site's origin).
 4. Deploy worker. Set `orderEndpoint` in `config.js` to its verified HTTPS endpoint.
 5. Update the privacy page with the actual processors, addresses, locations, legal transfer safeguards, processing agreements and retention. The current text correctly describes the present mail-draft behavior; it must change when the backend is enabled.
 6. Test both mailbox deliveries with owner-approved test addresses, including provider failures and retries. Only then activate automatic confirmations in production.

@@ -1,6 +1,7 @@
 // Optional email backend. Deploy separately; GitHub Pages cannot execute this file.
 import prices from './prices.json' with {type:'json'};
 import {calculate} from '../core.js';
+export const OWNER_EMAIL='faltenfrei.im.schlaf@gmail.com';
 const emailRE=/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
 const text=v=>typeof v==='string'?v.trim():'';
 export function validate(payload){
@@ -44,7 +45,7 @@ export default {async fetch(request,env){
  if(!env.ALLOWED_ORIGIN||origin!==env.ALLOWED_ORIGIN)return result({ok:false,error:'Origin not allowed'},403);
  if(request.method==='OPTIONS')return new Response(null,{status:204,headers:cors});
  if(request.method!=='POST'||!request.headers.get('Content-Type')?.includes('application/json'))return result({ok:false,error:'Invalid method'},405);
- if(!env.RESEND_API_KEY||!env.MAIL_FROM||!env.OWNER_EMAIL||!env.DB||!env.HASH_SALT)return result({ok:false,error:'Email delivery is not configured'},503);
+ if(!env.RESEND_API_KEY||!env.MAIL_FROM||!env.DB||!env.HASH_SALT)return result({ok:false,error:'Email delivery is not configured'},503);
  let p;
  try{const raw=await request.text();if(raw.length>20000)return result({ok:false,error:'Request too large'},413);p=validate(JSON.parse(raw))}catch{return result({ok:false,error:'Please check your data'},400)}
  try{
@@ -67,8 +68,8 @@ export default {async fetch(request,env){
    await env.DB.prepare('DELETE FROM requests WHERE created<?').bind(Date.now()-7*86400000).run();
   }
   const body=bodyFor(p);
-  if(!existing?.owner_sent){await send(env,'ff-owner-'+p.requestId,{from:env.MAIL_FROM,to:[env.OWNER_EMAIL],reply_to:p.customer.email,subject:'FaltenFrei · '+(p.kind==='order'?'Neue Bestellung eingegangen':'Neue Kooperationsanfrage'),text:body});await env.DB.prepare('UPDATE requests SET owner_sent=1 WHERE id=?').bind(p.requestId).run()}
-  if(!existing?.customer_sent){await send(env,'ff-customer-'+p.requestId,{from:env.MAIL_FROM,to:[p.customer.email],reply_to:env.OWNER_EMAIL,...customerReceipt(p)});await env.DB.prepare('UPDATE requests SET customer_sent=1 WHERE id=?').bind(p.requestId).run()}
+  if(!existing?.owner_sent){await send(env,'ff-owner-'+p.requestId,{from:env.MAIL_FROM,to:[OWNER_EMAIL],reply_to:p.customer.email,subject:'FaltenFrei · '+(p.kind==='order'?'Neue Bestellung eingegangen':'Neue Kooperationsanfrage'),text:body});await env.DB.prepare('UPDATE requests SET owner_sent=1 WHERE id=?').bind(p.requestId).run()}
+  if(!existing?.customer_sent){await send(env,'ff-customer-'+p.requestId,{from:env.MAIL_FROM,to:[p.customer.email],reply_to:OWNER_EMAIL,...customerReceipt(p)});await env.DB.prepare('UPDATE requests SET customer_sent=1 WHERE id=?').bind(p.requestId).run()}
   return result({ok:true,reference:p.requestId});
  }catch{return result({ok:false,error:'Delivery could not be confirmed. Please retry with the same request reference.'},502)}
 }};
