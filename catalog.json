@@ -534,8 +534,8 @@
     "kind": "pw",
     "category": "vorbereitung",
     "name": {
-      "de": "Weichmacher-Gel 1%",
-      "ru": "Размягчающий гель 1%"
+      "de": "Weichmacher-Gel 0,1%",
+      "ru": "Размягчающий гель 0,1%"
     },
     "description": {
       "de": "Professionelles Gel zur Vorbereitung der mechanischen Hautreinigung. Die Variante wird entsprechend Hautzustand und professionellem Behandlungskonzept ausgewählt.",
@@ -556,7 +556,8 @@
       }
     ],
     "oldNetCents": 4500,
-    "atlas": 3
+    "atlas": 3,
+    "image": "assets/pw-weich-01.webp"
   },
   {
     "id": "pw-toner",

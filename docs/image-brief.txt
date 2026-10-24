@@ -5,3 +5,6 @@ GESICHTSWASSER 500 ml; KIWI GOLD SERUM 50 ml; GOLD KAVIAR SERUM 50 ml; LUXUS ABS
 BERUHIGENDE MASKE 200 ml; PERFEKTER TOUCH MASKE 200 ml; ANTI-AGING KONZENTRAT 200 ml; PERFECT SKIN TONIC 500 ml;
 HYALURONGEL MESOPORATION 200 ml; SERUM PERFECT SKIN 200 ml; FEUCHTIGKEITS-SERUM 200 ml; FF PROFESSIONAL.
 Soft studio shadows, frontal view, product within central 70% of its square, no props. Illustrative packaging, labelled as KI-Produktvisualisierung on the website.
+
+
+2026-10-24 correction: single Weichmacher-Gel jar, 0,1%, 100 ml. Built-in image generation with pw-atlas.webp as style reference. Exact required label: WEICHMACHER-GEL / 0,1% / 100 ml. Match white closed jar, FF logo, gold diagonal ribbon, warm ivory background; one jar only. Saved as assets/pw-weich-01.webp, used only for pw-weich-3; original atlas retained for other products.
