@@ -14,3 +14,9 @@
 @media(max-width:700px){
  .dialog-product .product-media{position:relative;top:auto;width:100%;max-width:100%;margin:0}
 }
+
+/* Checkout instructions remain readable on narrow screens. */
+.order-steps{margin:12px 0 0;padding-left:24px}
+.order-steps li+li{margin-top:10px}
+.checkout-development{margin-top:18px}
+.checkout-development p{margin:10px 0 0}
