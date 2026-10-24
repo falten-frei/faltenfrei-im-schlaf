@@ -45,6 +45,11 @@ pw('pw-perfect-tonic','Perfect Skin Tonic','Perfect Skin Tonic','apparativ',500,
 pw('pw-hyaluron','Hyalurongel – Mesoporation','Гиалуроновый гель — мезопорация','apparativ',200,43.50,12,'Hyaluronhaltiges Kontaktgel für geeignete kosmetische Geräteanwendungen. Die Eignung ist anhand der aktuellen Produkt- und Geräteanleitung zu prüfen.','Гелевая текстура и увлажняющий уход в одном профессиональном этапе. Создан для совместимых аппаратных протоколов и комфортной работы специалиста.','Hyaluronsäure laut Katalog.','Гиалуроновая кислота по каталогу.')
 pw('pw-perfect-serum','Serum – Perfect Skin','Сыворотка Perfect Skin','apparativ',200,None,13,'Professionelles Präparat für ausgewählte Reinigungsprotokolle. Die aktuelle Anleitung und die Eignung für das verwendete Gerät sind maßgeblich.','Специализированный этап в вашей профессиональной программе очищения. Для точной работы по протоколу с учётом состояния кожи и совместимости оборудования.','Salicylsäure laut Katalog.','Салициловая кислота по каталогу.')
 pw('pw-moisture','Feuchtigkeits-Serum','Увлажняющая сыворотка','apparativ',200,None,14,'Feuchtigkeitsserum für die professionelle kosmetische Pflege. Die Anwendung mit Geräten oder auf behandelter Haut erfolgt ausschließlich nach aktueller Herstellerfreigabe.','Насыщенный увлажняющий акцент для профессионального ухода. Дополняет программу заботы о коже там, где это предусмотрено актуальным протоколом производителя.','Hyaluronsäure und Hanfextrakt laut Katalog.','Гиалуроновая кислота и экстракт конопли по каталогу.')
+# Owner-confirmed net prices supersede the historical catalogue calculation.
+for p in products:
+ if p['id'] in {'pw-hyaluron':5600,'pw-perfect-serum':3900}:
+  p['variants'][0]['price']={'pw-hyaluron':5600,'pw-perfect-serum':3900}[p['id']]
+  p['priceOverrideNetCents']=p['variants'][0]['price']
 (root/'catalog.json').write_text(json.dumps(products,ensure_ascii=False,indent=2))
 (root/'backend/prices.json').write_text(json.dumps({p['id']:{'name':p['name']['de'],'volume':p['variants'][0]['label'],'net':p['variants'][0]['price']} for p in products if p['kind']=='pw'},ensure_ascii=False,indent=2))
 print(len(products),'products; PW net prices:',[(p['name']['de'],p['variants'][0]['price']) for p in products if p['kind']=='pw'])

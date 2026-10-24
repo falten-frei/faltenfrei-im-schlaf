@@ -814,11 +814,12 @@
     "variants": [
       {
         "label": "200 ml",
-        "price": 4800
+        "price": 5600
       }
     ],
     "oldNetCents": 4350,
-    "atlas": 12
+    "atlas": 12,
+    "priceOverrideNetCents": 5600
   },
   {
     "id": "pw-perfect-serum",
@@ -843,11 +844,12 @@
     "variants": [
       {
         "label": "200 ml",
-        "price": null
+        "price": 3900
       }
     ],
     "oldNetCents": null,
-    "atlas": 13
+    "atlas": 13,
+    "priceOverrideNetCents": 3900
   },
   {
     "id": "pw-moisture",
