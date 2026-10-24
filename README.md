@@ -10,7 +10,7 @@ Deutsch / Русский. B2B-Katalog für Kosmetikinstitute, Praxiswarenkorb un
 - Cart calculations and server validation tested with `npm test` (no dependencies).
 - DE/RU descriptions, founder story, B2B trade notice, Impressum, adapted privacy information and B2B terms.
 - No analytics, external fonts, embedded third-party media or online payments.
-- The current frontend prepares an email draft. It does not claim to have sent or automatically confirmed an order.
+- PW checkout opens a prepared WhatsApp order to the configured test number. The buyer must send it in WhatsApp. No automatic email receipt or delivery claim. Cart stays intact. VK cooperation still uses an email draft.
 
 ## GitHub Pages
 
@@ -28,6 +28,10 @@ node build.mjs
 
 `dist/` is a generated static-only package. The root also works directly on GitHub Pages. Generated previews and raw source snapshots are not deployed.
 
+## WhatsApp checkout (current)
+
+`config.js`: `orderChannel: 'whatsapp'`, `whatsappPhone: '491727676092'` (temporary number approved for testing). Replace only `whatsappPhone` with the final international number, digits only. Checkout includes customer details, products, quantities, net totals, shipping, 19% VAT and gross total in the selected language. The link is opened only after explicit form submission and valid required fields. No personal information is stored in browser storage. Opening a chat does not prove the message was sent.
+
 ## Automatic email to customer and owner — activation required
 
 GitHub Pages does not run server-side code or send emails. A separate implementation is provided in `backend/worker.js` for Cloudflare Workers + D1 + Resend. It is NOT deployed or connected. No mail provider account or sender verification is available in this session.
@@ -37,7 +41,7 @@ Order destination: **faltenfrei.im.schlaf@gmail.com**, fixed on the server. Cust
 1. Set up the owner's email provider account and verify a sender controlled by the owner. Do not use a sandbox sender for customer delivery.
 2. Create D1 database, apply `backend/schema.sql`, bind it as `DB`.
 3. Configure secrets `RESEND_API_KEY`, `MAIL_FROM`, `HASH_SALT`, and `ALLOWED_ORIGIN` (the exact live site's origin).
-4. Deploy worker. Set `orderEndpoint` in `config.js` to its verified HTTPS endpoint.
+4. Deploy worker. Set `orderEndpoint` in `config.js` to its verified HTTPS endpoint and change `orderChannel` away from `whatsapp`.
 5. Update the privacy page with the actual processors, addresses, locations, legal transfer safeguards, processing agreements and retention. The current text correctly describes the present mail-draft behavior; it must change when the backend is enabled.
 6. Test both mailbox deliveries with owner-approved test addresses, including provider failures and retries. Only then activate automatic confirmations in production.
 
